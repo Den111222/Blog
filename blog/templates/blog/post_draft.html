@@ -13,11 +13,8 @@
 {% for post in items%} {# items это posts из views #}
     {% if post.published != True %}
 <div style="margin: 25px; margin-top:5px; display: inline-block">
-{#<div style="margin: 25px">#}
     <div style="border: 2px solid">
-{#        <div>{{post.title}}</div>#}
         <a href="{% url 'post_detail' post_pk=post.id %}">{{post.title}}</a>
-{#        <div>{{ post.text }}</div>#}
         <div>{{ post.created_date }}</div>
         <div>{{ post.published_date }}</div>
     </div>

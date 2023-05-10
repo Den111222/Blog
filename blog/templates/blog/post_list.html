@@ -42,12 +42,9 @@
             {% if post.category == cat %}
                 {% if post.published == True %}
                     <div style="margin: 25px; margin-top:5px; display: inline-block">
-                    {#<div style="margin: 25px">#}
                         <div style="border: 2px solid">
-                    {#        <div>{{post.title}}</div>#}
                             <div style="font-size: 24px; margin: 10px; display: inline-block; text-align: center">
                                 <a href="{% url 'post_detail' post_pk=post.id %}">{{post.title}}</a>
-                    {#        <div>{{ post.text }}</div>#}
                             </div>
                             <div style="font-size: 16px; text-align: center; border-top: 1px solid">{{ post.created_date }}</div>
                             <div style="font-size: 16px; text-align: center; border-top: 1px solid">{{ post.published_date }}</div>

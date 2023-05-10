@@ -1,11 +1,7 @@
 from datetime import datetime
 
 from django.contrib import auth
-# from django.db.models import Avg
-# from collections import Counter
-from django.shortcuts import render, redirect, get_object_or_404
-from django.template.context_processors import request
-
+from django.shortcuts import render, redirect
 from blog.forms import PostForm, CommentForm
 from blog.models import Post, Comments, Category
 
@@ -16,20 +12,12 @@ def post_list(request):
     return render(request,'blog/post_list.html', {
         'items': posts,
         'category': category,
-    }) #передача в templates объекта post как "items"
+    })
 
 def post_detail(request, post_pk):
     post = Post.objects.get(id=post_pk)
     comments = Comments.objects.filter(post=post)
     counter = comments.count()
-    # breakpoint()
-    # rate2 = comments.values('rate').annotate(Avg('rate')).order_by('-rate')
-
-    # rate2 = comments.values('rate')
-    # c = Counter()
-    # for d in rate2:
-    #     c.update(d)
-
     rate=0
     score = 0
     for x in comments:
@@ -50,11 +38,8 @@ def post_new(request):
         post = form.save(commit=False)
         post.save()
         return redirect('post_list')
-    # form = PostForm(request.method)
-    # return render(request, 'blog/post_new.html', {'form': form})
 
 def post_edit(request, post_id):
-    # post = get_object_or_404(Post, pk=post_id)
     post = Post.objects.get(id=post_id)
     if request.method == 'GET':
         form = PostForm(instance=post)

@@ -11,8 +11,7 @@ class Post(models.Model):
                                  on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.title}' #текстовые строки всегда лучше заворачивать в
-        # форматную строку. Зачем ХЗ
+        return f'{self.title}'
 
 class Comments(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
