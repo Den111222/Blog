@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+    a {
+    text-decoration: none;
+    color: black;
+    }
+</style>
+<div>
+    <p style="font-size: 48px; margin-bottom:15px; text-align: center">
+        Fishing Blog
+    </p>
+</div>
+
+<div style="margin-bottom: 15px">
+    <a style="border: 2px solid; border-radius: 10px; padding: 5px"
+       href="{% url 'post_list' %}">
+        Вернуться
+    </a>
+</div>
+
+<h2>Редактировать публикацию</h2>
+
+<form action="" method="POST">{% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Добавить">
+</form>
+
+
+</body>
+</html>
