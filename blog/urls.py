@@ -1,8 +1,8 @@
-from django.urls import path
-
+from django.urls import path, include
 from blog.views import post_list, post_detail, post_new, \
     post_edit, post_delete, published_post, post_draft, \
     category, comment_post
+
 
 urlpatterns = [
     path('', post_list, name='post_list'),

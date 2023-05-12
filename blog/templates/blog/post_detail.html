@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Title</title>#}
+{#</head>#}
+{% extends "base_generic.html" %}
+{% block content %}
+
 <body>
+    <div>
+       {% if user.is_authenticated %}
+       {% else %}
+         <li>Вы не авторизованы, комментировать могут только авторизованные пользователи.
+         Публиковать и редактировать может только автор</li>
+       {% endif %}
+
+    </div>
+
     <div>
         <p style="font-size: 30px; margin-bottom:15px; text-align: center">
           <a href="{% url 'post_list' %}">Fishing Blog</a>
@@ -51,3 +63,4 @@
     {{ rate }}
 </body>
 </html>
+{% endblock %}

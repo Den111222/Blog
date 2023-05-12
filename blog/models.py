@@ -9,6 +9,7 @@ class Post(models.Model):
     category = models.ForeignKey('Category',
                                  verbose_name='Category',
                                  on_delete=models.CASCADE)
+    author = models.ForeignKey("auth.User", on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.title}'

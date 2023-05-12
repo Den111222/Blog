@@ -1,6 +1,16 @@
-<!DOCTYPE html>
-<html>
+{#<!DOCTYPE html>#}
+{#<html>#}
+
+{% extends "base_generic.html" %}
+{% block content %}
+
 <body>
+    <div>
+        {% if user.is_authenticated %}
+       {% else %}
+         <li>Вы не авторизованы, корректировать может только автор.</li>
+       {% endif %}
+    </div>
 <style>
     a {
     text-decoration: none;
@@ -27,6 +37,6 @@
     <input type="submit" value="Добавить">
 </form>
 
-
 </body>
 </html>
+{% endblock %}

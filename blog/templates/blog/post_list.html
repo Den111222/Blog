@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Fishing blog</title>
-</head>
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Fishing blog</title>#}
+{#</head>#}
+
+{% extends "base_generic.html" %}
+{% block content %}
+
 <body>
+    <div>
+       {% if user.is_authenticated %}
+       {% else %}
+         <li>Вы не авторизованы, создавать и комментировать посты могут только авторизованные пользователи.
+         Публиковать и редактировать может только автор</li>
+       {% endif %}
+
+    </div>
 
 <style>
     a {
@@ -30,7 +42,7 @@
 <div style="margin-bottom: 35px; margin-left: 25px">
         <a style="border: 2px solid; border-radius: 10px; padding: 5px"
            href="{% url 'post_new' %}">
-            Содать новую публикацию
+            Создать новую публикацию
         </a>
     </div>
 <div>
@@ -64,3 +76,4 @@
 </div>
 </body>
 </html>
+{% endblock %}

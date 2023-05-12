@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from django.contrib import auth
 from django.shortcuts import render, redirect
 from blog.forms import PostForm, CommentForm
@@ -18,29 +17,35 @@ def post_detail(request, post_pk):
     post = Post.objects.get(id=post_pk)
     comments = Comments.objects.filter(post=post)
     counter = comments.count()
-    rate=0
-    score = 0
-    for x in comments:
-        score += 1
-        rate = (rate + x.rate)
-    rate = rate / score
-
+    if counter != 0:
+        rate=0
+        score = 0
+        for x in comments:
+            score += 1
+            rate = (rate + x.rate)
+        rate = rate / score
+    else:rate = 0
     return render(request, 'blog/post_detail.html', {'post': post,'comments': comments,
                                                      'counter': counter,'rate': rate,
                                                      })
 
 def post_new(request):
+    if auth.get_user(request).id is None:
+        return redirect('post_list')
     if request.method == 'GET':
         form = PostForm()
         return render(request, 'blog/post_new.html', {'form': form})
     else:
         form = PostForm(request.POST)
         post = form.save(commit=False)
+        post.author = auth.get_user(request)
         post.save()
         return redirect('post_list')
 
 def post_edit(request, post_id):
     post = Post.objects.get(id=post_id)
+    if auth.get_user(request).id != post.author.id:
+        return redirect('post_list')
     if request.method == 'GET':
         form = PostForm(instance=post)
         return render(request, 'blog/post_edit.html', {'form': form})
@@ -54,11 +59,15 @@ def post_edit(request, post_id):
 
 def post_delete(request, post_id):
     post = Post.objects.get(id=post_id)
+    if auth.get_user(request).id != post.author.id:
+        return redirect('post_list')
     post.delete()
     return redirect('post_list')
 
 def published_post(request, post_id):
     post = Post.objects.get(id=post_id)
+    if auth.get_user(request).id != post.author.id:
+        return redirect('post_list')
     post.published_date = datetime.now()
     post.published = True
     post.save()
@@ -76,14 +85,17 @@ def category(request, category_pk):
 
 def comment_post(request, post_id):
     post = Post.objects.get(id=post_id)
-    if request.method == 'GET':
-        form = CommentForm()
-        return render(request, 'blog/comment_post.html', {'form': form})
-    else:
-        form = CommentForm(request.POST)
-        comment = form.save(commit=False)
-        comment.post = post
-        comment.published_date = datetime.now()
-        comment.author = auth.get_user(request)
-        comment.save()
+    if auth.get_user(request).id is None:
         return redirect('post_detail', post_pk=post.id)
+    else:
+        if request.method == 'GET':
+            form = CommentForm()
+            return render(request, 'blog/comment_post.html', {'form': form})
+        else:
+            form = CommentForm(request.POST)
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.published_date = datetime.now()
+            comment.author = auth.get_user(request)
+            comment.save()
+            return redirect('post_detail', post_pk=post.id)
